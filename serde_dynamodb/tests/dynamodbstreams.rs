@@ -12,9 +12,9 @@ use std::fmt;
 macro_rules! test_with {
     ($type:ty, $val:expr) => {
         let original = $val;
-        let serialized = serde_dynamodb::streams::to_hashmap(&original).unwrap();
-        let deserialized: std::result::Result<$type, serde_dynamodb::Error> =
-            serde_dynamodb::streams::from_hashmap(dbg!(serialized));
+        let serialized = serde_dynamodb_streams::streams::to_hashmap(&original).unwrap();
+        let deserialized: std::result::Result<$type, serde_dynamodb_streams::Error> =
+            serde_dynamodb_streams::streams::from_hashmap(dbg!(serialized));
         assert!(dbg!(&deserialized).is_ok());
         assert_eq!(original, deserialized.unwrap());
     };
@@ -28,7 +28,7 @@ fn can_serialize_struct() {
         f: f32,
     }
     let value = Basic { i: 5, f: 10.2 };
-    assert!(serde_dynamodb::streams::to_hashmap(&value).is_ok())
+    assert!(serde_dynamodb_streams::streams::to_hashmap(&value).is_ok())
 }
 
 #[test]
@@ -73,7 +73,7 @@ fn can_deserialize_struct() {
             ..Default::default()
         },
     );
-    let res: serde_dynamodb::error::Result<Basic> = serde_dynamodb::streams::from_hashmap(value);
+    let res: serde_dynamodb_streams::error::Result<Basic> = serde_dynamodb_streams::streams::from_hashmap(value);
     assert!(res.is_ok());
 }
 
@@ -134,8 +134,8 @@ fn can_go_back_and_forth() {
         unit: (),
         unit_struct: Unit,
     };
-    let hm = serde_dynamodb::streams::to_hashmap(&value).unwrap();
-    let out: Basic = serde_dynamodb::streams::from_hashmap(hm).unwrap();
+    let hm = serde_dynamodb_streams::streams::to_hashmap(&value).unwrap();
+    let out: Basic = serde_dynamodb_streams::streams::from_hashmap(hm).unwrap();
     assert_eq!(value, out);
 }
 
@@ -152,7 +152,7 @@ fn can_serialize_struct_leveled() {
     let value = Basic {
         intern: Internal { i: 5 },
     };
-    assert!(serde_dynamodb::streams::to_hashmap(&value).is_ok())
+    assert!(serde_dynamodb_streams::streams::to_hashmap(&value).is_ok())
 }
 
 #[test]
@@ -226,9 +226,9 @@ fn can_create_struct_custom_serialization() {
 
     let value = Point { x_y: 100 };
 
-    let hm = serde_dynamodb::streams::to_hashmap(&value).unwrap();
-    let point_result: std::result::Result<Point, serde_dynamodb::Error> =
-        serde_dynamodb::streams::from_hashmap(hm);
+    let hm = serde_dynamodb_streams::streams::to_hashmap(&value).unwrap();
+    let point_result: std::result::Result<Point, serde_dynamodb_streams::Error> =
+        serde_dynamodb_streams::streams::from_hashmap(hm);
     assert!(point_result.is_ok())
 }
 
@@ -255,7 +255,7 @@ fn can_deserialize_hashset() {
         },
     );
 
-    let test_hashes: Foo = serde_dynamodb::streams::from_hashmap(value).unwrap();
+    let test_hashes: Foo = serde_dynamodb_streams::streams::from_hashmap(value).unwrap();
     let mut expected = HashSet::new();
     expected.insert("foo".to_owned());
     expected.insert("bar".to_owned());
@@ -306,7 +306,7 @@ fn can_be_missing_with_default() {
 
     let value: HashMap<String, AttributeValue> = HashMap::new();
 
-    let request: Request = serde_dynamodb::streams::from_hashmap(value).unwrap();
+    let request: Request = serde_dynamodb_streams::streams::from_hashmap(value).unwrap();
     assert_eq!(request.resource, "/");
     assert_eq!(request.timeout, Timeout(30));
     assert_eq!(request.priority, Priority::ExtraLow);
@@ -448,8 +448,8 @@ fn can_serialize_shortstyle_enum_in_struct() {
         },
     );
 
-    let deserialized: std::result::Result<WithEnum, serde_dynamodb::Error> =
-        serde_dynamodb::streams::from_hashmap(value);
+    let deserialized: std::result::Result<WithEnum, serde_dynamodb_streams::Error> =
+        serde_dynamodb_streams::streams::from_hashmap(value);
     assert!(dbg!(&deserialized).is_ok());
     assert_eq!(
         WithEnum {

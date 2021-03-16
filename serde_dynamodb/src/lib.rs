@@ -57,7 +57,7 @@
 //! # Parsing HashMap as strongly typed data structures
 //!
 //! Serde provides a powerful way of mapping HashMap data into Rust data structures
-//! largely automatically by using [serde_dynamodb::from_hashmap][from_hashmap]
+//! largely automatically by using [serde_dynamodb_streams::from_hashmap][from_hashmap]
 //!
 //! ```rust,ignore
 //! extern crate serde;
@@ -74,7 +74,7 @@
 //! use rusoto_core::Region;
 //! use rusoto_dynamodb::{DynamoDb, DynamoDbClient, QueryInput, AttributeValue};
 //!
-//! use serde_dynamodb::Error;
+//! use serde_dynamodb_streams::Error;
 //!
 //! #[derive(Serialize, Deserialize, Debug)]
 //! struct Person {
@@ -105,7 +105,7 @@
 //!         .items
 //!         .unwrap_or_else(|| vec![])
 //!         .into_iter()
-//!         .map(|item| serde_dynamodb::from_hashmap(item).unwrap())
+//!         .map(|item| serde_dynamodb_streams::from_hashmap(item).unwrap())
 //!         .collect();
 //!
 //!
@@ -121,11 +121,11 @@
 //! # Creating an HashMap by serializing data structures
 //!
 //! A data structure can be converted to an HashMap by
-//! [`serde_dynamodb::to_hashmap`][to_hashmap].
+//! [`serde_dynamodb_streams::to_hashmap`][to_hashmap].
 //!
 //! ```rust
 //! use serde::{Serialize, Deserialize};
-//! use serde_dynamodb::Error;
+//! use serde_dynamodb_streams::Error;
 //!
 //! #[derive(Serialize, Deserialize, Debug)]
 //! struct Address {
@@ -142,7 +142,7 @@
 //!     };
 //!
 //!     // Serialize it to an HashMap.
-//!     let dynamodb_object = serde_dynamodb::to_hashmap(&address)?;
+//!     let dynamodb_object = serde_dynamodb_streams::to_hashmap(&address)?;
 //!
 //!     // Print, write to a file, or send to an HTTP server.
 //!     println!("{:?}", dynamodb_object);
@@ -156,16 +156,16 @@
 //! ## rusoto_dynamodb
 //!
 //! Feature `rusoto_dynamodb` is enabled by default and add methods
-//! [`serde_dynamodb::from_hashmap`][from_hashmap] and
-//! [`serde_dynamodb::to_hashmap`][to_hashmap]. Those methods work with
+//! [`serde_dynamodb_streams::from_hashmap`][from_hashmap] and
+//! [`serde_dynamodb_streams::to_hashmap`][to_hashmap]. Those methods work with
 //! [`AttributeValue`][dynamodb_attribute] from [DynamoDB][dynamodb].
 //!
 //! ## rusoto_dynamodbstreams
 //!
 //! Feature `rusoto_dynamodbstreams` is disabled by default and add module
 //! [`streams`][streams] with methods
-//! [`serde_dynamodb::streams::from_hashmap`][from_hashmap_streams] and
-//! [`serde_dynamodb::streams::to_hashmap`][to_hashmap_streams]. Those methods work with
+//! [`serde_dynamodb_streams::streams::from_hashmap`][from_hashmap_streams] and
+//! [`serde_dynamodb_streams::streams::to_hashmap`][to_hashmap_streams]. Those methods work with
 //! [`AttributeValue`][dynamodbstreams_attribute] from [DynamoDB Streams][dynamodbstreams].
 //!
 //! [aws_doc]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.LowLevelAPI.html#Programming.LowLevelAPI.DataTypeDescriptors

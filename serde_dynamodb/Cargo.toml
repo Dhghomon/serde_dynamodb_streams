@@ -1,10 +1,10 @@
 [package]
-name = "serde_dynamodb"
+name = "serde_dynamodb_streams"
 version = "0.7.0"
-authors = ["François Mockers <mockersf@gmail.com>"]
-description = "de/serialize struct to HashMap<String, AttributeValue> with Serde to use with Rusoto DynamoDB"
-repository = "https://github.com/mockersf/serde_dynamodb"
-homepage = "https://github.com/mockersf/serde_dynamodb"
+authors = ["James Massey <james@trufintech.io>"]
+description = "de/serialize struct to HashMap<String, AttributeValue> with Serde to use with Rusoto DynamoDB Streams. Just a fork of  mockersf/serde_dynamodb with different feature flags"
+repository = "https://github.com/james-tru/serde_dynamodb_streams"
+homepage = "https://github.com/james-tru/serde_dynamodb_streams"
 documentation = "https://docs.rs/serde_dynamodb"
 keywords = ["serde", "dynamodb", "rusoto"]
 license = "MIT"
@@ -16,8 +16,7 @@ travis-ci = { repository = "mockersf/serde_dynamodb" }
 
 [dependencies]
 serde = "1.0"
-rusoto_dynamodb = { version = "0.46.0", default-features = false, optional = true }
-rusoto_dynamodbstreams = { version = "0.46.0", optional = true }
+rusoto_dynamodbstreams = { version = "0.46.0", default-features = false, optional = true }
 bytes = "1.0"
 
 [dev-dependencies]
@@ -26,5 +25,5 @@ rusoto_core = "0.46.0"
 rusoto_dynamodb = "0.46.0"
 
 [features]
-default = ["rusoto_dynamodb", "rusoto_dynamodb/default"]
-rustls = ["rusoto_dynamodb", "rusoto_dynamodb/rustls"]
+default = ["rusoto_dynamodbstreams", "rusoto_dynamodbstreams/default"]
+rustls = ["rusoto_dynamodbstreams", "rusoto_dynamodbstreams/rustls"]
